@@ -35,4 +35,53 @@ class ModelExtensionModuleCustomerApi extends Model
         $url      = $api_url.'/crm/customers?api_token='.$token;
         $result   = file_get_contents($url, false, $context);
     }
+
+    public function edit_action($args) {
+        $postdata = http_build_query(
+            array(
+                'name'              => $args[1]['firstname'].' '.$args[1]['lastname'],
+                'email'             => $args[1]['email'],
+                'source'            =>  'opencart',
+                'source_refrence'   =>  $args[0],
+                'crm'   =>  [
+                    'default'   =>  [
+                        'phone'             =>  $args[1]['telephone'],
+                    ]
+                ]
+            )
+        );
+        $opts = array('http' =>
+            array(
+                'method'  => 'PUT',
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'content' => $postdata
+            )
+        );
+
+        $context  = stream_context_create($opts);
+        $api_url  = $this->config->get('module_customer_api_ENVENTORY_URL');
+        $token    = urlencode($this->config->get('module_customer_api_ENVENTORY_TOKRN'));
+        $url      = $api_url.'/crm/customers/'.$args[0].'?source=opencart&api_token='.$token;
+        $result   = file_get_contents($url, false, $context);
+    }
+
+    public function delete_action($args) {
+        $postdata = http_build_query(
+            array()
+        );
+        $opts = array('http' =>
+            array(
+                'method'  => 'DELETE',
+                'header'  => "Content-type: application/x-www-form-urlencoded",
+                'content' => $postdata
+            )
+        );
+
+        $context  = stream_context_create($opts);
+        $api_url  = $this->config->get('module_customer_api_ENVENTORY_URL');
+        $token    = urlencode($this->config->get('module_customer_api_ENVENTORY_TOKRN'));
+        $url      = $api_url.'/crm/customers/'.$args[0].'?source=opencart&api_token='.$token;
+        $result   = file_get_contents($url, false, $context);
+    }
+    
 }

@@ -98,29 +98,108 @@ class ControllerExtensionModuleCustomerApi extends Controller
     public function install() {
         $this->load->model('setting/event');
         /*
-            Add New User 
+            ============================================================================
+            ============================================================================
+            -------------------------------- User Area --------------------------------
+            ============================================================================
+            ============================================================================
+        */
+        /*
+            Add New User
         */
         $this->model_setting_event->addEvent('admin_new_customer_api', 'admin/model/customer/customer/addCustomer/after', 'extension/module/customer_api/add_action');
         $this->model_setting_event->addEvent('front_new_customer_api', 'catalog/model/account/customer/addCustomer/after', 'extension/module/customer_api/add_action');
         /*
-            Update User Data 
+            Update User Data
         */
-        $this->model_setting_event->addEvent('admin_update_customer_api', 'admin/model/customer/customer/editCustomer/after', 'extension/module/edit_customer_api/add_action');
-        $this->model_setting_event->addEvent('front_update_customer_api', 'catalog/model/account/customer/editCustomer/after', 'extension/module/edit_customer_api/add_action');
+        $this->model_setting_event->addEvent('admin_update_customer_api', 'admin/model/customer/customer/editCustomer/after', 'extension/module/customer_api/edit_action');
+        $this->model_setting_event->addEvent('front_update_customer_api', 'catalog/model/account/customer/editCustomer/after', 'extension/module/customer_api/edit_action');
         /*
-            Delete 
+            Delete User Data
         */
-        $this->model_setting_event->addEvent('admin_delete_customer_api', 'admin/model/customer/customer/deleteCustomer/after', 'extension/module/delete_customer_api/add_action');
-        $this->model_setting_event->addEvent('front_delete_customer_api', 'catalog/model/account/customer/deleteCustomer/after', 'extension/module/delete_customer_api/add_action');
+        $this->model_setting_event->addEvent('admin_delete_customer_api', 'admin/model/customer/customer/deleteCustomer/after', 'extension/module/customer_api/delete_action');
+        $this->model_setting_event->addEvent('front_delete_customer_api', 'catalog/model/account/customer/deleteCustomer/after', 'extension/module/customer_api/delete_action');
+        /*
+            ============================================================================
+            ============================================================================
+            -------------------------------- Items Area --------------------------------
+            ============================================================================
+            ============================================================================
+        */
+        /*
+            Add New Items
+        */
+        $this->model_setting_event->addEvent('admin_add_items_api', 'admin/model/catalog/product/addProduct/after', 'extension/module/customer_api/add_items');
+        /*
+            Edit Item Data
+        */
+        $this->model_setting_event->addEvent('admin_edit_items_api', 'admin/model/catalog/product/editProduct/after', 'extension/module/customer_api/delete_items');
+        /*
+            Delete Item Data
+        */   
+        $this->model_setting_event->addEvent('admin_delete_items_api', 'admin/model/catalog/product/deleteProduct/after', 'extension/module/customer_api/delete_items');
     }
 
     public function uninstall() {
         $this->load->model('setting/event');
-        $this->model_setting_event->deleteEventByCode('customer_api');
+        /*
+            ============================================================================
+            ============================================================================
+            -------------------------------- User Area --------------------------------
+            ============================================================================
+            ============================================================================
+        */
+        $this->model_setting_event->deleteEventByCode('admin_new_customer_api');
+        $this->model_setting_event->deleteEventByCode('front_new_customer_api');
+        $this->model_setting_event->deleteEventByCode('admin_update_customer_api');
+        $this->model_setting_event->deleteEventByCode('front_update_customer_api');
+        $this->model_setting_event->deleteEventByCode('admin_delete_customer_api');
+        $this->model_setting_event->deleteEventByCode('front_delete_customer_api');
+        /*
+            ============================================================================
+            ============================================================================
+            -------------------------------- Items Area --------------------------------
+            ============================================================================
+            ============================================================================
+        */
+        $this->model_setting_event->deleteEventByCode('admin_add_items_api');
+        $this->model_setting_event->deleteEventByCode('admin_edit_items_api');
+        $this->model_setting_event->deleteEventByCode('admin_delete_items_api');
     }
 
     public function add_action(&$route, &$args, &$output) {
         $this->load->model('extension/module/customer_api');
         $this->model_extension_module_customer_api->add_action($args);
+    }
+
+    public function edit_action(&$route, &$args, &$output) {
+        $this->load->model('extension/module/customer_api');
+        $this->model_extension_module_customer_api->edit_action($args);
+    }
+
+    public function delete_action(&$route, &$args, &$output) {
+        $this->load->model('extension/module/customer_api');
+        $this->model_extension_module_customer_api->delete_action($args);
+    }
+    /*
+        ============================================================================
+        ============================================================================
+        -------------------------------- Items Area --------------------------------
+        ============================================================================
+        ============================================================================
+    */
+    public function add_items(&$route, &$args, &$output) {
+        $this->load->model('extension/module/customer_api');
+        $this->model_extension_module_customer_api->add_items($args,$output);
+    }
+    
+    public function edit_items(&$route, &$args, &$output) {
+        $this->load->model('extension/module/customer_api');
+        $this->model_extension_module_customer_api->edit_items($args,$output);
+    }
+
+    public function delete_items(&$route, &$args, &$output) {
+        $this->load->model('extension/module/customer_api');
+        $this->model_extension_module_customer_api->delete_items($args,$output);
     }
 }
