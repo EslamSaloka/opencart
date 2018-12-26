@@ -100,9 +100,9 @@ class ModelExtensionModuleCustomerApi extends Model
         ============================================================================
     */
     public function add_items($args,$output) {
-        // if(!$this->config->get('module_customer_api_status')) {
-        //     return ;
-        // }
+        if(!$this->config->get('module_customer_api_status')) {
+            return ;
+        }
         if($args[0]['price'] == null) {
             $args[0]['price'] = 0;
         }
